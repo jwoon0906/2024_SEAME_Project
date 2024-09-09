@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>image/back.png</file>
+        <file>image/dial.png</file>
+        <file>image/dial2.png</file>
+        <file>image/dial3.png</file>
+    </qresource>
+</RCC>
