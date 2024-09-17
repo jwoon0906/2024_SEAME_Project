@@ -10,12 +10,16 @@ count = 0
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 while True:
-    random_value = count % 260
+    random_value = count % 350 - 90
+    if random_value < 0:
+        random_value = 0
     # 값을 문자열로 변환 후 전송
     message = str(random_value).encode('utf-8')
     sock.sendto(message, (UDP_IP, UDP_PORT))
     
     print(f"Sent: {random_value}")
-    count += 1
+    count += 5
+
+        
     # 1초 대기
     time.sleep(0.1)

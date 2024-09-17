@@ -5,5 +5,7 @@
         <file>image/dial.png</file>
         <file>image/dial2.png</file>
         <file>image/dial3.png</file>
+        <file>image/needle_without_back.png</file>
+        <file>image/vintage_retro_classic.png</file>
     </qresource>
 </RCC>

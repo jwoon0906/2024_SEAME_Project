@@ -369,6 +369,8 @@ qrc_qml.cpp: ../gui_test_2/qml.qrc \
 		../gui_test_2/main.qml \
 		../gui_test_2/image/dial3.png \
 		../gui_test_2/image/dial2.png \
+		../gui_test_2/image/needle_without_back.png \
+		../gui_test_2/image/vintage_retro_classic.png \
 		../gui_test_2/image/back.png \
 		../gui_test_2/image/dial.png
 	/usr/lib/qt5/bin/rcc -name qml ../gui_test_2/qml.qrc -o qrc_qml.cpp

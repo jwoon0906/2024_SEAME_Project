@@ -3,58 +3,62 @@ import QtQuick.Controls 2.2
 
 ApplicationWindow {
     visible: true
-    width: 900
+    width: 1280
     height: 400
-    title: qsTr("Speedometer")
+    visibility: Window.FullScreen
 
     // 속도계 배경 이미지
     Image {
-        id: backgroundImage
-        width: 900
-        height: 400
-        anchors.fill: parent
-        source: "image/back.png" // Replace with the path to your background image
-    }
-    Image {
         id: speedImage
-        width: 874
-        height: 365
+        width: 1280
         anchors.centerIn: parent
-        source: "qrc:/image/dial3.png"
-
-        // 속도계 배경 이미지 경로
+        source: "qrc:/image/vintage_retro_classic.png"
     }
 
-    Canvas {
-        id: speedPointer
-        width: 300
-        height: 300
+    property real speed: 0
+
+    Image {
+        id: needle
+        source: "qrc:/image/needle_without_back.png"
         anchors.centerIn: parent
+        anchors.verticalCenterOffset: 30
+        anchors.horizontalCenterOffset: 0.5
+        transform: Rotation {
+            id: rotation
+            origin.x: needle.width * 97 / 157
+            origin.y: needle.height * 61 / 164
+            angle: speedToAngle(speed)
 
-        onPaint: {
-            var ctx = getContext("2d");
-            var centerX = width / 2;
-            var centerY = height / 2 - 7;
-
-            ctx.clearRect(0, 0, width, height);
-
-            var angle = ((speedReceiver.speedValue +1) / 180) * 180 - 180;  // 최고속도 240
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.rotate(angle * Math.PI / 180);
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(0, -100);
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = "#FFFFFF";
-            ctx.stroke();
-            ctx.restore();
+            // Add behavior to the angle property directly inside Rotation
+            Behavior on angle {
+                NumberAnimation {
+                    duration: 300  // Adjust this for the desired smoothness (300ms)
+                    easing.type: Easing.InOutQuad  // Easing for smooth movement
+                }
+            }
         }
+    }
 
-        // speedValue 값이 변경될 때마다 바늘을 다시 그립니다.
-        Connections {
-            target: speedReceiver
-            onSpeedValueChanged: speedPointer.requestPaint()
+    // 속도 값을 바늘의 각도로 변환하는 함수
+    function speedToAngle(speed) {
+        var minSpeed = 0;  // min speed
+        var maxSpeed = 100;  // max speed
+        var minAngle = 7;  // min angle of needle
+        var maxAngle = 225;  // max angle of needle
+
+        // speed to degree
+        return minAngle + (speed - minSpeed) * (maxAngle - minAngle) / (maxSpeed - minSpeed);
+    }
+
+    // Simulating received speed data with smooth update
+    Timer {
+        interval: 100  // Update every 100ms (you can adjust this)
+        running: true
+        repeat: true
+        onTriggered: {
+            var newSpeed = speedReceiver.speedValue;  // Simulate new speed value between 0 and 240
+            speed = newSpeed;  // Assign new speed
         }
     }
 }
+

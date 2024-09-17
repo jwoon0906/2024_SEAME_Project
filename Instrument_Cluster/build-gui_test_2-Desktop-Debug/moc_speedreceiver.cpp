@@ -60,7 +60,7 @@ static const uint qt_meta_data_SpeedReceiver[] = {
        1,    0,   24,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   25,    2, 0x08 /* Private */,
+       3,    0,   25,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
