@@ -32,17 +32,16 @@ ApplicationWindow {
             // Add behavior to the angle property directly inside Rotation
             Behavior on angle {
                 NumberAnimation {
-                    duration: 300  // Adjust this for the desired smoothness (300ms)
+                    duration: 100  // Adjust this for the desired smoothness (300ms)
                     easing.type: Easing.InOutQuad  // Easing for smooth movement
                 }
             }
         }
     }
 
-    // 속도 값을 바늘의 각도로 변환하는 함수
     function speedToAngle(speed) {
         var minSpeed = 0;  // min speed
-        var maxSpeed = 100;  // max speed
+        var maxSpeed = 200;  // max speed
         var minAngle = 7;  // min angle of needle
         var maxAngle = 225;  // max angle of needle
 
