@@ -5,7 +5,7 @@ ApplicationWindow {
     visible: true
     width: 1280
     height: 400
-    visibility: Window.FullScreen
+    visibility: "FullScreen"
 
     // 속도계 배경 이미지
     Image {
@@ -16,6 +16,21 @@ ApplicationWindow {
     }
 
     property real speed: 0
+
+    property real estimatedSpeed: 0
+    property real estimationError: 1
+    property real processNoise: 0.125  // 프로세스 노이즈
+    property real measurementNoise: 2.0 // 측정 노이즈
+
+
+
+//    Text {
+//        id: myText
+//        text: "smooth_500_40_speed 160"  // 표시할 텍스트
+//        font.pointSize: 24   // 폰트 크기 설정
+//        color: "black"       // 텍스트 색상
+//        anchors.centerIn: parent  // 부모 요소의 가운데에 위치
+//    }
 
     Image {
         id: needle
@@ -31,22 +46,39 @@ ApplicationWindow {
 
             // Add behavior to the angle property directly inside Rotation
             Behavior on angle {
-                NumberAnimation {
-                    duration: 100  // Adjust this for the desired smoothness (300ms)
-                    easing.type: Easing.InOutQuad  // Easing for smooth movement
+//                NumberAnimation {
+//                    duration:1200  // Adjust this for the desired smoothness (300ms)
+//                    easing.type: Easing.InOutQuad  // Easing for smooth movement
+//                }
+//                SpringAnimation{
+//                    spring : 0.8
+//                    damping : 0.3
+//                    epsilon: 0.01
+//                    duration: 1500
+//                }
+                SmoothedAnimation{
+                    duration: 500
+                    velocity: 40
                 }
             }
         }
     }
 
-    function speedToAngle(speed) {
+
+    function speedToAngle(sp) {
         var minSpeed = 0;  // min speed
-        var maxSpeed = 200;  // max speed
+        var maxSpeed = 160;  // max speed
         var minAngle = 7;  // min angle of needle
         var maxAngle = 225;  // max angle of needle
+        if (sp < minSpeed){
+            sp = minSpeed;
+        }else if(sp > maxSpeed){
+            sp = maxSpeed;
+        }
 
         // speed to degree
-        return minAngle + (speed - minSpeed) * (maxAngle - minAngle) / (maxSpeed - minSpeed);
+        //return minAngle + (speed - minSpeed) * (maxAngle - minAngle) / (maxSpeed - minSpeed);
+        return (sp - minSpeed) * (maxAngle - minAngle) / (maxSpeed - minSpeed) + minAngle;
     }
 
     // Simulating received speed data with smooth update
